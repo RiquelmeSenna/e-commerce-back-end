@@ -1,0 +1,49 @@
+- Produtos
+    - Rotas
+        /product/:id get
+        /product post
+        /product/:id put
+        /product/:id delete
+        /products get
+        /products/:name get
+    - Dados
+        - id
+        - name
+        - price (a vista)
+        - description
+        - brand
+        - category
+        - size
+        - disponibility
+        - stock
+
+- User
+    - Rotas
+        /auth/singup post
+        /auth/signin post
+        /user/:id get
+        /user/:id put
+        /user/:id delete
+    -Dados
+        - id
+        - name
+        - email
+        - adress
+        - password
+        - [orders]
+        - favorites
+
+- Carrinho
+    -Rotas
+        /cart get
+        /cart/:id post
+        /cart/:id delete
+        /cart/:id put
+        /finish
+    - Dados
+        - id
+        - userId
+        - items[productId]
+        - qntd
+        - totalPrice
+        - status

@@ -12,11 +12,20 @@
         - price (a vista)
         - description
         - brand
-        - category
+        - categoryId
         - size
         - disponibility
         - stock
 
+- Categoria
+    - Rotas
+        /category/products/:idCategory get
+        /category post
+        /category/:idCategory put
+        /category/:idCategory delete
+    - Dados
+        - id
+        - name
 - User
     - Rotas
         /auth/singup post
@@ -32,18 +41,31 @@
         - password
         - [orders]
         - favorites
+        - admin: boolean
 
 - Carrinho
-    -Rotas
+    - Rotas
         /cart get
         /cart/:id post
         /cart/:id delete
+        /cart/delete
         /cart/:id put
-        /finish
+        /finish post
     - Dados
         - id
         - userId
         - items[productId]
         - qntd
         - totalPrice
-        - status
+
+- Pedidos
+    - Rotas
+        /orders get
+    - Dados
+        - id
+        - userId
+        - status 
+        - items []
+        - createdAt
+        - totalPrice
+

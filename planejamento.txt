@@ -14,7 +14,6 @@
         - description
         - brand
         - categoryId
-        - size
         - disponibility
         - stock
 
@@ -26,6 +25,7 @@
     - Dados
         - id
         - name
+        
 - User
     - Rotas
         /auth/singup post

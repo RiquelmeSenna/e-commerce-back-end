@@ -1,11 +1,12 @@
 - Produtos
     - Rotas
+        /product get
+        /product/search?name=?? get
         /product/:id get
-        /product post
-        /product/:id put
-        /product/:id delete
-        /products get
-        /products/:name get
+        /product/:categoryId get
+        /product post(admin)
+        /product/:id put(admin)
+        /product/:id delete(admin)
     - Dados
         - id
         - name
@@ -19,10 +20,9 @@
 
 - Categoria
     - Rotas
-        /category/products/:idCategory get
-        /category post
-        /category/:idCategory put
-        /category/:idCategory delete
+        /category post(admin)
+        /category/:idCategory put(admin)
+        /category/:idCategory delete(admin)
     - Dados
         - id
         - name
@@ -41,16 +41,17 @@
         - password
         - [orders]
         - favorites
+        - token
         - admin: boolean
 
 - Carrinho
     - Rotas
         /cart get
         /cart/:id post
+        /cart/:id put
         /cart/:id delete
         /cart/delete
-        /cart/:id put
-        /finish post
+        /cart/finish post
     - Dados
         - id
         - userId
@@ -61,6 +62,8 @@
 - Pedidos
     - Rotas
         /orders get
+        /orders/:id
+        /orders put
     - Dados
         - id
         - userId

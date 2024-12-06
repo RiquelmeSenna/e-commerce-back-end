@@ -1,8 +1,9 @@
 import { Router } from "express";
-//import * as userController from '../controllers/userController'
+import * as userController from '../controllers/userController'
+import { middleware } from "../middleware/jwt";
 
 export const userRouter = Router()
-/*
-userRouter.get('/:id', userController.getUser)
-userRouter.put('/:id', userController.updateUser)
-userRouter.delete('/:id', userController.deleteUser)*/
+
+userRouter.get('/', middleware, userController.getUser)
+userRouter.put('/', middleware, userController.updateUser)
+userRouter.delete('/', middleware, userController.deleteUser)

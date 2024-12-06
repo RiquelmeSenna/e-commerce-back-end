@@ -40,3 +40,52 @@ export const signIn = async (email: string, password: string) => {
 
     return User
 }
+
+export const findUserByToken = async (token: string) => {
+    const userToken = await user.findOne({
+        token
+    })
+    if (!userToken) {
+        throw new Error('user not existing')
+    }
+
+    return userToken
+}
+
+export const findUserByEmail = async (email: string) => {
+    const userEmail = await user.findOne({ email })
+
+    if (!userEmail) {
+        throw new Error('Email not existing')
+    }
+
+    return userEmail
+}
+
+type updateUser = {
+    name?: string,
+    email?: string,
+    adress?: string,
+    password?: string
+}
+
+export const updateUser = async (email: string, data: updateUser) => {
+    const query = { email }
+
+    const updatedUser = await user.findOneAndUpdate(query, {
+        name: data.name,
+        email: data.email,
+        adress: data.adress,
+        password: data.password,
+    }, { new: true })
+
+    if (!updatedUser) {
+        throw new Error('not possible update this user ')
+    }
+
+    return updatedUser
+}
+
+export const deleteUser = async (email: string) => {
+    return await user.findOneAndDelete({ email })
+}

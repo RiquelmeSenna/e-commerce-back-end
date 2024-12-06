@@ -7,9 +7,11 @@ import { categoryRouter } from './routers/categoryRouter'
 import { orderRouter } from './routers/orderRouter'
 import { productRouter } from './routers/productRouter'
 import { userRouter } from './routers/userRouter'
+import { mongoConnect } from './database/mongo'
 
 const server = express()
 
+mongoConnect()
 server.use(cors())
 server.use(helmet())
 server.use(urlencoded({ extended: true }))

@@ -1,12 +1,11 @@
 - Produtos
     - Rotas
-        /product get
-        /product/search?name=?? get
-        /product/:id get
-        /product/:categoryId get
-        /product post(admin)
-        /product/:id put(admin)
-        /product/:id delete(admin)
+        /product get (done)
+        /product/:id get (done)
+        /product post(admin) (done)
+        /product/search?name=?? get (done)
+        /product/:id put(admin) (done)
+        /product/:id delete(admin) (done)
     - Dados
         - id
         - name
@@ -28,11 +27,11 @@
         
 - User
     - Rotas
-        /auth/singup post
-        /auth/signin post
-        /user/:id get
-        /user/:id put
-        /user/:id delete
+        /auth/singup post (done)
+        /auth/signin post (done)
+        /user/:id get (done)
+        /user/:id put (done)
+        /user/:id delete (done)
     -Dados
         - id
         - name

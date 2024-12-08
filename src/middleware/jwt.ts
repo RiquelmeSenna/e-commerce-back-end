@@ -15,12 +15,15 @@ export const middleware = (req: ExtendedRequest, res: Response, next: NextFuncti
     const verify = jwt.verify(token, process.env.SECRET_KEY as string,
         async (error, decoded) => {
             if (error) return res.status(401).json({ error: 'Mande um token válido' })
+            try {
+                const user = await findUserByToken(token)
+                req.userEmail = user.email
 
-            const user = await findUserByToken(token)
-            if (!user) return res.status(401).json({ error: 'Usuario inexistente' })
+                next()
+            } catch (error) {
+                res.status(401).json({ error: 'Usuario inexistente!' })
+            }
 
-            req.userEmail = user.email
-            next()
         }
     )
 }

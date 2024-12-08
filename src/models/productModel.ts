@@ -1,7 +1,7 @@
 import { connection, model, Model, Schema, Types } from "mongoose"
 
 
-type Product = {
+export type Product = {
     name: string,
     price: number,
     description: string,

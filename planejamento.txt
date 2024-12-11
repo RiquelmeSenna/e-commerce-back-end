@@ -18,9 +18,10 @@
 
 - Categoria
     - Rotas
-        /category post(admin)
-        /category/:idCategory put(admin)
-        /category/:idCategory delete(admin)
+        /category post(admin) (done)
+        /category/:idCategory put(admin) (done)
+        /category/:idCategory delete(admin) (done)
+        /category/:idCategory get (done)
     - Dados
         - id
         - name

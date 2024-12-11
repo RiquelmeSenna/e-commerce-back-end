@@ -1,10 +1,10 @@
 import { Router } from "express";
 import * as categoryController from '../controllers/categoryController'
+import { middleware } from "../middleware/jwt";
 
 export const categoryRouter = Router()
 
-categoryRouter.get('/', categoryController.getCategory)
-/*
-categoryRouter.post('/', categoryController.addCategory)
-categoryRouter.put('/:idCategory', categoryController.updateCategory)
-categoryRouter.delete('/:idCategory', categoryController.deleteCategory)*/
+categoryRouter.get('/:idCategory', categoryController.findProductByCategory)
+categoryRouter.post('/', middleware, categoryController.addCategory)
+categoryRouter.put('/:idCategory', middleware, categoryController.updateCategory)
+categoryRouter.delete('/:idCategory', middleware, categoryController.deleteCategory)

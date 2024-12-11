@@ -1,12 +1,14 @@
-import { connection, model, Model, Schema } from "mongoose";
+import { connection, model, Model, Schema, Types } from "mongoose";
 
 type Category = {
-    name: string
+    name: string,
+    products?: [Types.ObjectId]
 };
 
 
 const categorySchema = new Schema<Category>({
-    name: { required: true, type: String }
+    name: { required: true, type: String },
+    products: [{ type: Types.ObjectId, ref: 'Product' }]
 })
 
 const modelCategoryName = 'Category'

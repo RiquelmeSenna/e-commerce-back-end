@@ -1,7 +1,7 @@
 import { Types } from "mongoose";
 import product, { Product } from "../models/productModel"
 import { findUserByEmail } from "./user"
-import { profileEnd } from "console";
+import category from "../models/categoryModel";
 
 export const getAll = async (page: number) => {
     const validPage = isNaN(page) || page < 1 ? 1 : page;
@@ -21,7 +21,9 @@ export const getAll = async (page: number) => {
                 __v: 0,
                 categoryId: 0,
                 category: {
-                    _id: 0
+                    _id: 0,
+                    products: 0,
+                    __v: 0
                 }
             }
         },
@@ -55,7 +57,9 @@ export const getOne = async (id: string, page: number) => {
                 __v: 0,
                 categoryId: 0,
                 category: {
-                    _id: 0
+                    _id: 0,
+                    products: 0,
+                    __v: 0,
                 }
             }
         },
@@ -78,10 +82,39 @@ export const getOne = async (id: string, page: number) => {
 
 export const getProductsByName = async (name: string, page: number) => {
     const validPage = isNaN(page) || page < 1 ? 1 : page
-
-    const products = await product.find({
-        name: { $regex: '.*' + name + '.*', $options: 'i' }
-    }).skip((validPage - 1) * 12).limit(12)
+    const products = await product.aggregate([
+        {
+            $match: { name: { $regex: '.*' + name + '.*', $options: 'i' } }
+        },
+        {
+            $lookup: {
+                from: 'categories',
+                localField: 'categoryId',
+                foreignField: '_id',
+                as: 'category'
+            }
+        },
+        {
+            $project: {
+                produtos: { $arrayElemAt: ["$metadata.total", 0] },
+                _id: 0,
+                __v: 0,
+                categoryId: 0,
+                category: {
+                    _id: 0,
+                    products: 0,
+                    __v: 0,
+                },
+            }
+        },
+        { $limit: 12, },
+        { $skip: (validPage - 1) * 12, },
+        {
+            $addFields: {
+                price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".00"] }
+            }
+        },
+    ])
 
     if (!products || products.length == 0) {
         throw new Error('Error in search product or not found products')
@@ -115,6 +148,14 @@ export const addProduct = async (email: string, data: Product) => {
     if (!newProduct) {
         throw new Error("Not possible create a product")
     }
+
+    await category.findByIdAndUpdate(
+        newProduct.categoryId,
+        {
+            $push: { products: newProduct.id },
+        },
+        { new: true }
+    )
 
     return newProduct
 }
@@ -158,6 +199,13 @@ export const updateProduct = async (email: string, id: string, data: Product) =>
             { new: true }
         )
     }
+
+    await category.findByIdAndUpdate(
+        updatedProduct.categoryId,
+        {
+            $push: { products: updatedProduct.id }
+        },
+    )
 
     return updatedProduct
 }

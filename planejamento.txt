@@ -46,10 +46,9 @@
 
 - Carrinho
     - Rotas
-        /cart get
-        /cart/:id post
-        /cart/:id put
-        /cart/:id delete
+        /cart get (done)
+        /cart/:id post (done)
+        /cart/:id delete (done)
         /cart/delete
         /cart/finish post
     - Dados

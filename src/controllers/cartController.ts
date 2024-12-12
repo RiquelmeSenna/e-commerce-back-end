@@ -36,6 +36,16 @@ export const removeToCart = async (req: ExtendedRequest, res: Response) => {
         const cart = await cartService.removeProductInCart(req.userEmail, safeData.data.idProduct)
         res.json({ cart })
     } catch (error) {
+        res.status(400).json({ error: 'Error ao remover produto do carrinho' })
+    }
+}
 
+export const clearCart = async (req: ExtendedRequest, res: Response) => {
+    try {
+        const cleanProduct = await cartService.clearCart(req.userEmail)
+
+        res.json({ cleanProduct })
+    } catch (error) {
+        res.status(400).json({ error: 'Não foi possivel limpar o carrinho!' })
     }
 }

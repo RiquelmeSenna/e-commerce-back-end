@@ -35,6 +35,14 @@ export const getCartUser = async (id: string) => {
     return cartUser
 }
 
+export const calculateTotalPrice = async (cartUser: any) => {
+    const totalPrice = cartUser.reduce((total, cartItem) => {
+        const price = cartItem.product.reduce((sum, product) => sum + product.price, 0)
+        return total + price
+    }, 0)
+
+    return totalPrice
+}
 export const getCart = async (email: string) => {
     const user = await findUserByEmail(email)
 
@@ -44,17 +52,11 @@ export const getCart = async (email: string) => {
         throw new Error('Error')
     }
 
+    console.log(`search cart for user: ${user.email}`)
+
     return cartUser
 }
 
-export const calculateTotalPrice = async (cartUser: any) => {
-    const totalPrice = cartUser.reduce((total, cartItem) => {
-        const price = cartItem.product.reduce((sum, product) => sum + product.price, 0)
-        return total + price
-    }, 0)
-
-    return totalPrice
-}
 
 export const addProductInCart = async (email: string, idItem: string) => {
     const user = await findUserByEmail(email)
@@ -72,6 +74,8 @@ export const addProductInCart = async (email: string, idItem: string) => {
             $set: { qntd: products.item?.length, totalPrice }
         }
     )
+
+    console.log(`Product added for user: ${user.email} `)
 
     return cartUser
 }
@@ -108,5 +112,23 @@ export const removeProductInCart = async (email: string, idItem: string) => {
 
     await cart.findOneAndUpdate(query, { $set: { qntd: cartUser.length, totalPrice } });
 
+    console.log(`item removed for used: ${user.email}`)
     return cartUser;
+}
+
+export const clearCart = async (email: string) => {
+    const user = await findUserByEmail(email)
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    const query = { userId: user.id }
+
+    const cleanProduct = await cart.findOneAndUpdate(query, {
+        $set:
+            { item: [], qntd: 0, totalPrice: 0 }
+    }, { new: true })
+
+    console.log(`Cart cleared for user: ${user.email}`)
+    return cleanProduct
 }

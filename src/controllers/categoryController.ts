@@ -56,7 +56,7 @@ export const findProductByCategory = async (req: ExtendedRequest, res: Response)
 
     try {
         const products = await categoryService.findProductByCategory(safeData.data?.idCategory as string, parseInt(page as string))
-        res.json({ products })
+        res.json({ Category: products })
     } catch (error) {
         res.status(400).json({ error: 'Error ao procurar por está categoria!' })
     }

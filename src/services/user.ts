@@ -1,4 +1,5 @@
 import { jwtSign } from "../middleware/jwt"
+import cartModel from "../models/cartModel"
 import user, { User } from "../models/userModel"
 import bcrypt from 'bcrypt'
 
@@ -21,6 +22,10 @@ export const signUp = async (data: User) => {
     if (!newUser) {
         throw new Error('Not possible created User')
     }
+
+    await cartModel.create({
+        userId: newUser.id
+    })
 
     return newUser
 }

@@ -4,8 +4,6 @@ import { findUserByEmail } from "./user"
 import category from "../models/categoryModel";
 
 export const getAll = async (page: number) => {
-    const validPage = isNaN(page) || page < 1 ? 1 : page;
-
     const products = await product.aggregate([
         {
             $lookup: {
@@ -27,10 +25,10 @@ export const getAll = async (page: number) => {
                 }
             }
         },
+        { $skip: (page - 1) * 12 },
         { $limit: 12, },
-        { $skip: (validPage - 1) * 12, },
         {
-            $addFields: { price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".00"] } }
+            $addFields: { price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".99"] } }
         }
     ])
     if (!products || products.length == 0) {
@@ -39,8 +37,7 @@ export const getAll = async (page: number) => {
     return products
 }
 
-export const getOne = async (id: string, page: number) => {
-    const validPage = isNaN(page) || page < 1 ? 1 : page;
+export const getOne = async (id: string) => {
     const oneProduct = await product.aggregate([
         { $match: { _id: new Types.ObjectId(id) } },
         {
@@ -63,8 +60,6 @@ export const getOne = async (id: string, page: number) => {
                 }
             }
         },
-        { $limit: 12, },
-        { $skip: (validPage - 1) * 12, },
         {
             $addFields: {
                 price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".00"] }
@@ -96,7 +91,6 @@ export const getProductsByName = async (name: string, page: number) => {
         },
         {
             $project: {
-                produtos: { $arrayElemAt: ["$metadata.total", 0] },
                 _id: 0,
                 __v: 0,
                 categoryId: 0,
@@ -107,11 +101,11 @@ export const getProductsByName = async (name: string, page: number) => {
                 },
             }
         },
-        { $limit: 12, },
         { $skip: (validPage - 1) * 12, },
+        { $limit: 12, },
         {
             $addFields: {
-                price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".00"] }
+                price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".99"] }
             }
         },
     ])

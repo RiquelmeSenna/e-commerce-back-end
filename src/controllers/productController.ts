@@ -12,6 +12,7 @@ export const getProducts: RequestHandler = async (req, res) => {
         res.json({ products })
     } catch (error) {
         res.status(400).json({ error: 'Não há produtos' })
+        console.log(error)
     }
 }
 
@@ -23,7 +24,7 @@ export const getOne: RequestHandler = async (req, res) => {
     }
 
     try {
-        const product = await productService.getOne(safeData.data.productId, parseInt(page as string))
+        const product = await productService.getOne(safeData.data.productId)
         res.json({ product })
     } catch (error) {
         res.status(400).json({ error: 'Não foi possivel acessar este produto!' })

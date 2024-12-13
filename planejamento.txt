@@ -49,8 +49,7 @@
         /cart get (done)
         /cart/:id post (done)
         /cart/:id delete (done)
-        /cart/delete
-        /cart/finish post
+        /cart/delete (done)
     - Dados
         - id
         - userId
@@ -60,6 +59,7 @@
 
 - Pedidos
     - Rotas
+        /orders post
         /orders get
         /orders/:id
         /orders put

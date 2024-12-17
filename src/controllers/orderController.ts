@@ -34,3 +34,19 @@ export const getOrder = async (req: ExtendedRequest, res: Response) => {
         res.status(400).json({ error: 'Não foi possivel achar a ordem' })
     }
 }
+
+export const updateOrder = async (req: ExtendedRequest, res: Response) => {
+    const { status } = req.body
+    const safeData = orderSchema.safeParse(req.params)
+    if (!safeData.success) {
+        res.status(400).json({ error: safeData.error.flatten().fieldErrors })
+    }
+
+    try {
+        const order = await orderService.updateOrder(req.userEmail, safeData.data?.orderId as string, status)
+        res.status(202).json(order)
+    } catch (error) {
+        console.log(error)
+        res.status(400).json({ error: 'Não foi possivel atualizar!' })
+    }
+}

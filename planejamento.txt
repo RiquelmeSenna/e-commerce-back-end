@@ -61,8 +61,8 @@
     - Rotas
         /orders post (done)
         /orders get (done)
-        /orders/:id get
-        /orders put
+        /orders/:id get (done)
+        /orders put (done)
     - Dados
         - id
         - status 

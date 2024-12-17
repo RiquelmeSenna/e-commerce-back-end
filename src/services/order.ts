@@ -128,3 +128,17 @@ export const getOrder = async (idOrder: string) => {
 
     return Order
 }
+
+export const updateOrder = async (email: string, id: string, status: string) => {
+    const userAdmin = await findUserByEmail(email)
+    if (userAdmin.admin == false) {
+        throw new Error('User is not an admin')
+    }
+
+    const Order = await order.findByIdAndUpdate(id, { status }, { new: true })
+    if (!Order) {
+        throw new Error("It's not possible update this order")
+    }
+
+    return Order
+}

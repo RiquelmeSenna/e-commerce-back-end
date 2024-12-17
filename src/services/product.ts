@@ -2,6 +2,7 @@ import { Types } from "mongoose";
 import product, { Product } from "../models/productModel"
 import { findUserByEmail } from "./user"
 import category from "../models/categoryModel";
+import userModel from "../models/userModel";
 
 export const getAll = async (page: number) => {
     const products = await product.aggregate([
@@ -202,6 +203,56 @@ export const updateProduct = async (email: string, id: string, data: Product) =>
     )
 
     return updatedProduct
+}
+
+export const chechIfProductHasFavorite = async (email: string, productId: string) => {
+    const user = await findUserByEmail(email)
+    const userFavorite = await user.favorites?.includes(new Types.ObjectId(productId))
+
+    return userFavorite ? true : false
+}
+
+export const addFavorite = async (productId: string, email: string) => {
+    const productFavorite = await product.findById(productId)
+    if (!productFavorite) {
+        throw new Error('Product not exist')
+    }
+
+    const query = { email }
+
+    const user = await userModel.findOneAndUpdate(
+        query,
+        { $push: { favorites: productFavorite.id } },
+        { new: true }
+    )
+
+    if (!user) {
+        throw new Error('user not exist or error in update')
+    }
+
+    return user
+}
+
+export const removeFavorite = async (productId: string, email: string) => {
+    const productFavorite = await product.findById(productId)
+    if (!productFavorite) {
+        throw new Error('Product not exist')
+    }
+
+    const query = { email }
+
+    const user = await userModel.findOneAndUpdate(
+        query,
+        { $pull: { favorites: productFavorite.id } },
+        { new: true }
+    )
+
+    if (!user) {
+        throw new Error('user not exist or error in update')
+    }
+
+    return user
+
 }
 
 export const deleteProduct = async (email: string, id: string) => {

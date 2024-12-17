@@ -6,6 +6,7 @@
         /product/search?name=?? get (done)
         /product/:id put(admin) (done)
         /product/:id delete(admin) (done)
+        /product/toogleFavorite/:id (done)
     - Dados
         - id
         - name

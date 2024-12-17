@@ -139,6 +139,5 @@ export const updateOrder = async (email: string, id: string, status: string) => 
     if (!Order) {
         throw new Error("It's not possible update this order")
     }
-
     return Order
 }

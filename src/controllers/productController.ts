@@ -65,6 +65,27 @@ export const addProduct = async (req: ExtendedRequest, res: Response) => {
     }
 }
 
+export const toggleFavoriteProduct = async (req: ExtendedRequest, res: Response) => {
+    const safeData = productSchema.productIdSchema.safeParse(req.params)
+    if (!safeData.success) {
+        res.status(400).json({ error: safeData.error.flatten().fieldErrors })
+    }
+
+    try {
+        const userFavorite = await productService.chechIfProductHasFavorite(req.userEmail, safeData.data?.productId as string)
+        if (!userFavorite) {
+            const add = await productService.addFavorite(safeData.data?.productId as string, req.userEmail)
+            res.status(202).json({ add })
+        }
+        if (userFavorite) {
+            const remove = await productService.removeFavorite(safeData.data?.productId as string, req.userEmail)
+            res.status(202).json({ remove })
+        }
+    } catch (error) {
+        res.status(400).json({ erro: 'Não foi possivel adicionar/remover dos favoritos esse produto!' })
+    }
+}
+
 export const updateProduct = async (req: ExtendedRequest, res: Response) => {
     const safeData = productSchema.updateProductSchema.safeParse(req.body);
     const safeDataQuery = productSchema.productIdSchema.safeParse(req.params)

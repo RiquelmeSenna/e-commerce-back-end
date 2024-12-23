@@ -4,7 +4,8 @@
   "description": "��#\u0000 \u0000e\u0000-\u0000c\u0000o\u0000m\u0000m\u0000e\u0000r\u0000c\u0000e\u0000-\u0000b\u0000a\u0000c\u0000k\u0000-\u0000e\u0000n\u0000d\u0000\r\u0000 \u0000",
   "main": "index.js",
   "scripts": {
-    "dev": "node --import=tsx --watch --env-file=.env ./src/server.ts"
+    "dev": "node --import=tsx --watch --env-file=.env ./src/server.ts",
+    "test": "jest --runInBand"
   },
   "author": "",
   "license": "ISC",
@@ -19,12 +20,16 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@jest/globals": "^29.7.0",
     "@types/bcrypt": "^5.0.2",
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.0",
     "@types/helmet": "^4.0.0",
+    "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.7",
     "@types/mongoose": "^5.11.97",
-    "@types/node": "^22.10.1"
+    "@types/node": "^22.10.1",
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5"
   }
 }

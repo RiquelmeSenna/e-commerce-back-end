@@ -1,8 +1,7 @@
 import { Types } from "mongoose"
 import cart from "../models/cartModel"
 import { findUserByEmail } from "./user"
-import order from "../models/orderModel"
-import user from "../models/userModel"
+
 
 export const getCartUser = async (id: string) => {
     const cartUser = await cart.aggregate([

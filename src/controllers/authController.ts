@@ -1,7 +1,7 @@
 import { RequestHandler } from 'express'
 import * as userService from '../services/user'
 import { loginSchema, registerSchema } from '../validations/userSchema'
-import { jwtSign } from '../middleware/jwt'
+import { jwtSign } from '../auth/jwt'
 
 export const signup: RequestHandler = async (req, res) => {
     const safeData = registerSchema.safeParse(req.body)

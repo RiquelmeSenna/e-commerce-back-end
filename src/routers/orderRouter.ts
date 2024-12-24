@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { middleware } from "../middleware/jwt";
+import { middleware } from "../auth/jwt";
 import * as orderController from '../controllers/orderController'
 
 export const orderRouter = Router()

@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as userController from '../controllers/userController'
-import { middleware } from "../middleware/jwt";
+import { middleware } from "../auth/jwt";
 
 export const userRouter = Router()
 

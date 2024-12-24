@@ -1,6 +1,6 @@
 import { Router } from "express";
 import * as productController from '../controllers/productController'
-import { middleware } from "../middleware/jwt";
+import { middleware } from "../auth/jwt";
 
 export const productRouter = Router()
 

@@ -1,4 +1,3 @@
-import { jwtSign } from "../middleware/jwt"
 import cartModel from "../models/cartModel"
 import user, { User } from "../models/userModel"
 import bcrypt from 'bcrypt'

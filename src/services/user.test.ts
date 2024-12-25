@@ -69,7 +69,6 @@ describe('should test user service', () => {
         expect(userToken.email).toBe(user.email)
     })
 
-
     test('should update user', async () => {
         const updatedUser = await userService.updateUser(user.email, { name: 'Riquelme Senna' });
 
@@ -77,12 +76,18 @@ describe('should test user service', () => {
         expect(updatedUser.name).toBe('Riquelme Senna')
     })
 
+    test('should not update if email exist', async () => {
+        await expect(
+            userService.updateUser(user.email, { email: 'riquelmestayler57@gmail.com' })
+        ).rejects.toThrow('User existing')
+
+    })
+
     test('shoul delete user', async () => {
         const deletedUser = await userService.deleteUser(user.email)
 
         expect(deletedUser).not.toBeInstanceOf(Error);
-    })
-
+    });
 
     afterAll(async () => {
         mongoose.connection.close()

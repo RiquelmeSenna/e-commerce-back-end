@@ -75,6 +75,11 @@ type updateUser = {
 
 export const updateUser = async (email: string, data: updateUser) => {
     const query = { email }
+    const hasUserEmail = await user.findOne({ email: data.email })
+
+    if (hasUserEmail) {
+        throw new Error('User existing')
+    }
 
     const updatedUser = await user.findOneAndUpdate(query, {
         name: data.name,

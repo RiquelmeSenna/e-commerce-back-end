@@ -46,8 +46,8 @@ export const updateUser = async (req: ExtendedRequest, res: Response) => {
         })
 
     } catch (error) {
-        res.status(400).json({ error: 'Ocorreu algum error' })
         console.log(error)
+        res.status(400).json({ error: 'Ocorreu algum error' })
     }
 }
 

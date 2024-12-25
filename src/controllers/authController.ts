@@ -26,6 +26,7 @@ export const signup: RequestHandler = async (req, res) => {
             Token: user.token
         })
     } catch (error) {
+        console.log(error)
         res.status(401).json({ error: "Ocorreu algum error ao fazer a inscrição" })
     }
 }

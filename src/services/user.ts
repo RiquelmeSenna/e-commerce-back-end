@@ -96,5 +96,15 @@ export const updateUser = async (email: string, data: updateUser) => {
 }
 
 export const deleteUser = async (email: string) => {
-    return await user.findOneAndDelete({ email })
+    const hasUser = await findUserByEmail(email)
+    if (!hasUser) {
+        throw new Error('User not exist')
+    }
+    const deletedUser = await user.findOneAndDelete({ email: hasUser.email })
+
+    await cartModel.findOneAndDelete({
+        userId: hasUser.id
+    })
+
+    return deletedUser
 }

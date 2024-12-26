@@ -15,6 +15,16 @@ export const addCategory = async (email: string, name: String) => {
     return newCategory
 }
 
+export const findCategory = async (name: string) => {
+    const Category = await category.findOne({ name: { $regex: new RegExp("^" + name.toLowerCase(), 'i') } })
+
+    if (!Category) {
+        throw new Error('Cannot found the category')
+    }
+
+    return Category
+}
+
 export const updateCategory = async (email: string, name: string, id: string) => {
     const user = await findUserByEmail(email)
     if (user.admin == false) {

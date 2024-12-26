@@ -2,13 +2,13 @@ import { RequestHandler, Response } from 'express'
 import * as productService from '../services/product'
 import * as productSchema from '../validations/productSchema'
 import { ExtendedRequest } from '../types/extendedRequest'
-import { Types } from 'mongoose'
+import { findCategory } from '../services/category'
 
 
 export const getProducts: RequestHandler = async (req, res) => {
     const { page } = req.query
     try {
-        const products = await productService.getAll(parseInt(page as string))
+        const products = await productService.getAll(parseInt(page as string) || 1)
         res.json({ products })
     } catch (error) {
         res.status(400).json({ error: 'Não há produtos' })
@@ -50,9 +50,11 @@ export const addProduct = async (req: ExtendedRequest, res: Response) => {
     }
 
     try {
+        const category = await findCategory(safeData.data.category)
+
         const product = await productService.addProduct(req.userEmail, {
             brand: safeData.data.brand,
-            categoryId: safeData.data.categoryId as any,
+            categoryId: category.id,
             description: safeData.data.description,
             name: safeData.data.name,
             price: safeData.data.price,
@@ -61,6 +63,7 @@ export const addProduct = async (req: ExtendedRequest, res: Response) => {
 
         res.json({ product })
     } catch (error) {
+        console.log(error)
         res.status(400).json({ error: "Ocorreu algum error" })
     }
 }

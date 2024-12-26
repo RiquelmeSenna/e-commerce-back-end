@@ -6,7 +6,7 @@ export const productIdSchema = z.object({
 
 export const newProductSchema = z.object({
     brand: z.string(({ message: "Mande uma marca" })).min(2),
-    categoryId: z.string({ message: 'Mande uma categoria' }),
+    category: z.string({ message: 'Mande uma categoria' }),
     name: z.string({ message: 'Mande um nome' }),
     price: z.number({ message: 'Mande um valor' }),
     description: z.string({ message: "Mande uma descrição" }).min(2, { message: 'No minimo de 2 caracteres' }),

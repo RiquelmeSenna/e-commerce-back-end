@@ -1,8 +1,9 @@
 import { Types } from "mongoose"
-import cart from "../models/cartModel"
+import cart, { Cart } from "../models/cartModel"
 import { findUserByEmail } from "./user"
+import { Product } from "../models/productModel"
 
-
+// função de uso
 export const getCartUser = async (id: string) => {
     const cartUser = await cart.aggregate([
         { $match: { userId: new Types.ObjectId(id) } },
@@ -36,14 +37,6 @@ export const getCartUser = async (id: string) => {
     return cartUser
 }
 
-export const calculateTotalPrice = async (cartUser: any) => {
-    const totalPrice = cartUser.reduce((total, cartItem) => {
-        const price = cartItem.product.reduce((sum, product) => sum + product.price, 0)
-        return total + price
-    }, 0)
-
-    return totalPrice
-}
 export const getCart = async (email: string) => {
     const user = await findUserByEmail(email)
 
@@ -52,12 +45,17 @@ export const getCart = async (email: string) => {
     if (!cartUser) {
         throw new Error('Error')
     }
-
-    console.log(`search cart for user: ${user.email}`)
-
     return cartUser
 }
 
+export const calculateTotalPrice = async (cartUser: any) => {
+    const totalPrice = cartUser.reduce((total: number, cartItem: any) => {
+        const price = cartItem.product.reduce((sum: number, product: Product) => sum + product.price, 0)
+        return total + price
+    }, 0)
+
+    return totalPrice
+}
 
 export const addProductInCart = async (email: string, idItem: string) => {
     const user = await findUserByEmail(email)
@@ -113,7 +111,6 @@ export const removeProductInCart = async (email: string, idItem: string) => {
 
     await cart.findOneAndUpdate(query, { $set: { qntd: cartUser.length, totalPrice } });
 
-    console.log(`item removed for used: ${user.email}`)
     return cartUser;
 }
 
@@ -130,6 +127,5 @@ export const clearCart = async (email: string) => {
             { item: [], qntd: 0, totalPrice: 0 }
     }, { new: true })
 
-    console.log(`Cart cleared for user: ${user.email}`)
     return cleanProduct
 }

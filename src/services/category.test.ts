@@ -13,10 +13,10 @@ describe('should test services from category', () => {
     })
 
     test('should add new category', async () => {
-        const newCategory = await categoryService.addCategory('riquelmestayler57@gmail.com', 'Fonte')
+        const newCategory = await categoryService.addCategory('riquelmestayler57@gmail.com', 'SSDs')
 
         expect(newCategory).toHaveProperty('name')
-        expect(newCategory.name).toBe('Fonte')
+        expect(newCategory.name).toBe('SSDs')
     })
 
     test("should't add category if exist", async () => {
@@ -32,26 +32,26 @@ describe('should test services from category', () => {
     });
 
     test('should update category', async () => {
-        const updatedCategory = await categoryService.updateCategory('riquelmestayler57@gmail.com', 'Placas de video', '676ec9a7c76c2b4523dcea6c')
+        const updatedCategory = await categoryService.updateCategory('riquelmestayler57@gmail.com', 'Placas de video', '676eeb3d73316b74cec91cf3')
 
         expect(updatedCategory.name).toBe('Placas de video')
     })
 
     test('should find products by category', async () => {
-        const products = await categoryService.findProductByCategory('676ec9a7c76c2b4523dcea6c', 1)
+        const products = await categoryService.findProductByCategory('676eeb3d73316b74cec91cf3', 1)
 
         expect(products.length).toBeGreaterThanOrEqual(1)
     })
 
     test('should delete category', async () => {
-        const deletedCategory = await categoryService.deleteCategory('riquelmestayler57@gmail.com', '676ec9a7c76c2b4523dcea6c')
+        const deletedCategory = await categoryService.deleteCategory('riquelmestayler57@gmail.com', '676eeb3d73316b74cec91cf3')
 
-        expect(deletedCategory.id).toBe('676ec9a7c76c2b4523dcea6c')
+        expect(deletedCategory.id).toBe('676eeb3d73316b74cec91cf3')
     })
 
     test("should't delete category if not exist", async () => {
         await expect(
-            categoryService.deleteCategory('riquelmestayler57@gmail.com', '676c76e012f39b2f14216653')
+            categoryService.deleteCategory('riquelmestayler57@gmail.com', '676eeb3d73316b74cec91cf3')
         ).rejects.toThrow("It's not possible delete this category")
     })
 

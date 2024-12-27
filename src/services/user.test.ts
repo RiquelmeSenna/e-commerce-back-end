@@ -9,9 +9,11 @@ config();
 
 
 
-describe('should test user service', () => {
+describe('should test services from user', () => {
+
     beforeAll(async () => {
         await mongoConnectTest();
+
     })
 
     const user: User = {
@@ -45,7 +47,7 @@ describe('should test user service', () => {
 
     test('should not log in the user if he sends wrong email', async () => {
         await expect(
-            userService.signIn('riquelmestayler@gmail.com', user.password)
+            userService.signIn('riquelmestayler1@gmail.com', user.password)
         ).rejects.toThrow('User not existing')
     });
 

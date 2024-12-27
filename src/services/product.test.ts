@@ -8,7 +8,7 @@ import { findCategory } from "./category";
 config()
 
 
-describe('should test products service', () => {
+describe('should test service from products', () => {
     beforeAll(async () => {
         await mongoConnectTest();
     });
@@ -99,9 +99,9 @@ describe('should test products service', () => {
 
     test('should delete product', async () => {
         //id do produto tem que ser passado manualmente
-        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676ec9a79920e010734cf2ce')
+        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676eeb3fc9324f51ceb2deb3')
 
-        expect(product.id).toContain('676ec9a79920e010734cf2ce')
+        expect(product.id).toContain('676eeb3fc9324f51ceb2deb3')
     })
 
     test("should't delete product cause he don't found product", async () => {

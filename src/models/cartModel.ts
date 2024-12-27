@@ -1,6 +1,6 @@
 import { connection, model, Model, Schema, Types } from "mongoose"
 
-type Cart = {
+export type Cart = {
     userId: Types.ObjectId,
     item?: [Types.ObjectId],
     qntd?: number,

@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { ExtendedRequest } from "../types/extendedRequest";
 import * as cartService from '../services/cart'
-import { cartProductSchema, cartSchema } from "../validations/cartSchema";
+import { cartProductSchema } from "../validations/cartSchema";
 
 export const getCart = async (req: ExtendedRequest, res: Response) => {
     try {

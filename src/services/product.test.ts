@@ -13,7 +13,6 @@ describe('should test products service', () => {
         await mongoConnectTest();
     });
 
-
     const product: Product = {
         brand: "Nvidia",
         name: 'RTX 4090 TI',
@@ -39,7 +38,8 @@ describe('should test products service', () => {
     })
 
     test('should find one product', async () => {
-        const oneProduct = await productService.getOne('676c7c2d11ce9de2b92f0c03')
+        //id do produto tem que se passado manualmente
+        const oneProduct = await productService.getOne('676eb79779a96b0dac288290')
 
         expect(oneProduct.find(item => item)).toHaveProperty('price')
         expect(oneProduct.length).toBe(1)
@@ -53,7 +53,8 @@ describe('should test products service', () => {
     })
 
     test('should update product', async () => {
-        const updatedProduct = await productService.updateProduct('riquelmestayler57@gmail.com', '676c7c2d11ce9de2b92f0c03',
+        //id do produto tem que ser passado manualmente
+        const updatedProduct = await productService.updateProduct('riquelmestayler57@gmail.com', '676eb79779a96b0dac288290',
             {
                 brand: product.brand,
                 categoryId: product.categoryId,
@@ -65,6 +66,49 @@ describe('should test products service', () => {
 
         expect(updatedProduct.price).toBe(2100);
         expect(updatedProduct).not.toBeInstanceOf(Error);
+    })
+
+    test('should add product favorite', async () => {
+        //id do produto tem que ser passado manualmente
+        const userHasFavorite = await productService.addFavorite('676eb79779a96b0dac288290', 'riquelmestayler57@gmail.com')
+
+        expect(userHasFavorite).toHaveProperty('favorites');
+    })
+
+    test('should check if product has favorite', async () => {
+        //id do produto tem que ser passado manualmente
+        const product = await productService.chechIfProductHasFavorite('riquelmestayler57@gmail.com', '676eb79779a96b0dac288290')
+
+        expect(product).toBeTruthy()
+    })
+
+    test('should remove product favorite', async () => {
+        //id do produto tem que ser passado manualmente
+        const removedProduct = await productService.removeFavorite('676eb79779a96b0dac288290', 'riquelmestayler57@gmail.com')
+
+        expect(removedProduct).toHaveProperty('favorites');
+        expect(removedProduct.favorites).not.toContain('676eb79779a96b0dac288290')
+    })
+
+    test("should check if product has't favorite", async () => {
+        //id do produto tem que ser passado manualmente
+        const product = await productService.chechIfProductHasFavorite('riquelmestayler57@gmail.com', '676eb79779a96b0dac288290')
+
+        expect(product).toBeFalsy()
+    })
+
+    test('should delete product', async () => {
+        //id do produto tem que ser passado manualmente
+        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676ebadd2e2ccb4e811aced8')
+
+        expect(product.id).toContain('676ebadd2e2ccb4e811aced8')
+    })
+
+    test("should't delete product cause he don't found product", async () => {
+        //id do produto tem que ser passado manualmente
+        await expect(
+            productService.deleteProduct('riquelmestayler57@gmail.com', '676eb9d0b000cfd1c6e313b9')
+        ).rejects.toThrow('Cannot possible delete product')
     })
 
     afterAll(async () => {

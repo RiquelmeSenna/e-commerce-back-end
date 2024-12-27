@@ -1,11 +1,18 @@
 import { Types } from "mongoose"
 import category from "../models/categoryModel"
 import { findUserByEmail } from "./user"
+import productModel from "../models/productModel"
 
 export const addCategory = async (email: string, name: String) => {
     const user = await findUserByEmail(email)
     if (user.admin == false) {
         throw new Error('User is not an admin')
+    }
+
+    const hasCategory = await category.findOne({ name })
+
+    if (hasCategory) {
+        throw new Error('Category exist')
     }
 
     const newCategory = await category.create({ name })
@@ -36,20 +43,6 @@ export const updateCategory = async (email: string, name: string, id: string) =>
         throw new Error("It's not possible update this category")
     }
     return updatedCategory
-}
-
-export const deleteCategory = async (email: string, id: string) => {
-    const user = await findUserByEmail(email)
-    if (user.admin == false) {
-        throw new Error('User is not an admin')
-    }
-
-    const deletedCategory = await category.findByIdAndDelete(id)
-    if (!deletedCategory) {
-        throw new Error("It's not possible delete this category")
-    }
-
-    return deletedCategory
 }
 
 export const findProductByCategory = async (id: string, page: number) => {
@@ -105,4 +98,23 @@ export const findProductByCategory = async (id: string, page: number) => {
     }
 
     return productsByCategories
+}
+
+export const deleteCategory = async (email: string, id: string) => {
+    const user = await findUserByEmail(email)
+    if (user.admin == false) {
+        throw new Error('User is not an admin')
+    }
+
+    const deletedCategory = await category.findByIdAndDelete(id)
+    if (!deletedCategory) {
+        throw new Error("It's not possible delete this category")
+    }
+
+    await productModel.findByIdAndUpdate(
+        deletedCategory.products?.filter(item => item.id),
+        { $pull: { categoryId: deletedCategory.id } }
+    )
+
+    return deletedCategory
 }

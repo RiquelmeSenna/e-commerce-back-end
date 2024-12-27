@@ -99,15 +99,15 @@ describe('should test products service', () => {
 
     test('should delete product', async () => {
         //id do produto tem que ser passado manualmente
-        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676ebadd2e2ccb4e811aced8')
+        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676ec9a79920e010734cf2ce')
 
-        expect(product.id).toContain('676ebadd2e2ccb4e811aced8')
+        expect(product.id).toContain('676ec9a79920e010734cf2ce')
     })
 
     test("should't delete product cause he don't found product", async () => {
         //id do produto tem que ser passado manualmente
         await expect(
-            productService.deleteProduct('riquelmestayler57@gmail.com', '676eb9d0b000cfd1c6e313b9')
+            productService.deleteProduct('riquelmestayler57@gmail.com', '676ebb3030239404df73afdf')
         ).rejects.toThrow('Cannot possible delete product')
     })
 

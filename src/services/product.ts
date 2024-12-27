@@ -266,5 +266,11 @@ export const deleteProduct = async (email: string, id: string) => {
         throw new Error('Cannot possible delete product')
     }
 
+    await category.findByIdAndUpdate(
+        deleteProduct.categoryId,
+        { $pull: { products: deleteProduct.id } },
+        { new: true }
+    )
+
     return deleteProduct
 }

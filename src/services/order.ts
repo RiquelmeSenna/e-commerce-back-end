@@ -3,14 +3,18 @@ import cart from "../models/cartModel"
 import order from "../models/orderModel"
 import userModel from "../models/userModel"
 import { findUserByEmail } from "./user"
+import { clearCart } from "./cart"
 
 export const addOrder = async (email: string) => {
     const user = await findUserByEmail(email)
     const query = { userId: user.id }
     const cartUser = await cart.findOne(query)
+
     if (!cartUser) {
-        console.log('Unable cart')
         throw new Error('Unable cart')
+    }
+    if (cartUser.qntd as number < 1) {
+        throw new Error('Add product in cart')
     }
 
     const buy = await order.create({
@@ -31,17 +35,7 @@ export const addOrder = async (email: string) => {
         { new: true }
     )
 
-    await cart.findByIdAndUpdate(
-        cartUser.id,
-        {
-            $set: {
-                totalPrice: 0,
-                item: [],
-                qntd: 0
-            }
-        },
-        { new: true }
-    )
+    await clearCart(email)
     return buy
 }
 

@@ -7,8 +7,6 @@ import { jwtSign } from '../auth/jwt';
 import mongoose from 'mongoose';
 config();
 
-
-
 describe('should test services from user', () => {
 
     beforeAll(async () => {

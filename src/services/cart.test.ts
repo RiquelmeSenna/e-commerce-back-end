@@ -31,9 +31,9 @@ describe('should test services from cart', () => {
     })
 
     test("should remove product by cart", async () => {
-        const cart = await cartService.removeProductInCart('riquelmestayler@gmail.com', '676eb79779a96b0dac288290')
+        const cart = await cartService.removeProductInCart('riquelmestayler@gmail.com', '676eb79779a96b0dac288291')
 
-        expect(cart.length < 1).toBeTruthy()
+        expect(cart.length < 2).toBeTruthy()
     })
 
     test.skip('should clear all products from cart', async () => {

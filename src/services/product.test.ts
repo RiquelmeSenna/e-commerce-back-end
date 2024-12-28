@@ -16,7 +16,7 @@ describe('should test service from products', () => {
     const product: Product = {
         brand: "Nvidia",
         name: 'RTX 4090 TI',
-        categoryId: new Types.ObjectId('676c76e012f39b2f14216653'),
+        categoryId: new Types.ObjectId('676eecfcc37c207e1d3335c7'),
         description: 'RTX 4090 é foda parceiro',
         price: 2200,
         stock: 10
@@ -99,9 +99,9 @@ describe('should test service from products', () => {
 
     test('should delete product', async () => {
         //id do produto tem que ser passado manualmente
-        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676eeb3fc9324f51ceb2deb3')
+        const product = await productService.deleteProduct('riquelmestayler57@gmail.com', '676f27234fa618b61e68850f')
 
-        expect(product.id).toContain('676eeb3fc9324f51ceb2deb3')
+        expect(product.id).toContain('676f27234fa618b61e68850f')
     })
 
     test("should't delete product cause he don't found product", async () => {

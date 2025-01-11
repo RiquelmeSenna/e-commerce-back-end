@@ -8,9 +8,10 @@ export const newProductSchema = z.object({
     brand: z.string(({ message: "Mande uma marca" })).min(2),
     category: z.string({ message: 'Mande uma categoria' }),
     name: z.string({ message: 'Mande um nome' }),
-    price: z.number({ message: 'Mande um valor' }),
+    price: z.string({ message: 'Mande um valor' }),
     description: z.string({ message: "Mande uma descrição" }).min(2, { message: 'No minimo de 2 caracteres' }),
-    stock: z.number({ message: 'Mande o estoque' })
+    stock: z.string({ message: 'Mande o estoque' }),
+
 })
 
 export const updateProductSchema = z.object({
@@ -22,3 +23,4 @@ export const updateProductSchema = z.object({
     stock: z.number().optional(),
     disponibility: z.boolean().optional()
 })
+

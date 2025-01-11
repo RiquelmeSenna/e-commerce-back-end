@@ -50,18 +50,25 @@ export const addProduct = async (req: ExtendedRequest, res: Response) => {
     }
 
     try {
+        if (!req.file) {
+            return res.status(400).json({ error: 'Mande um arquivo' })
+        }
         const category = await findCategory(safeData.data.category)
+
+        const filename = await productService.handleRawPhoto(req.file?.path as string)
 
         const product = await productService.addProduct(req.userEmail, {
             brand: safeData.data.brand,
             categoryId: category.id,
             description: safeData.data.description,
             name: safeData.data.name,
-            price: safeData.data.price,
-            stock: safeData.data.stock
+            price: parseInt(safeData.data.price),
+            stock: parseInt(safeData.data.stock),
+            filename
         })
 
-        res.json({ product })
+        res.status(201).json({ product })
+
     } catch (error) {
         console.log(error)
         res.status(400).json({ error: "Ocorreu algum error" })
@@ -99,16 +106,22 @@ export const updateProduct = async (req: ExtendedRequest, res: Response) => {
         return res.status(400).json({ error: safeDataQuery.error.flatten().fieldErrors })
     }
     try {
-        const updatedProduct = await productService.updateProduct(req.userEmail, safeDataQuery.data.productId, {
-            brand: safeData.data.brand as string,
-            categoryId: safeData.data.categoryId as any,
-            description: safeData.data.description as string,
-            name: safeData.data.name as string,
-            price: safeData.data.price as number,
-            stock: safeData.data.stock as number,
-            disponibility: safeData.data.disponibility
-        })
-        res.status(206).json({ updatedProduct })
+        if (req.file) {
+            const filename = await productService.handleRawPhoto(req.file.path)
+
+
+            const updatedProduct = await productService.updateProduct(req.userEmail, safeDataQuery.data.productId, {
+                brand: safeData.data.brand as string,
+                categoryId: safeData.data.categoryId as any,
+                description: safeData.data.description as string,
+                name: safeData.data.name as string,
+                price: safeData.data.price as number,
+                stock: safeData.data.stock as number,
+                disponibility: safeData.data.disponibility,
+                filename
+            })
+            res.status(206).json({ updatedProduct })
+        }
     } catch (error) {
         res.status(200).json({ error: 'Não foi possivel atualizar este produto!' })
         console.log(error)

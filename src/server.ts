@@ -16,6 +16,7 @@ server.use(cors())
 server.use(helmet())
 server.use(urlencoded({ extended: true }))
 server.use(express.json())
+server.use(express.static('public'))
 
 server.use('/auth', authRouter)
 server.use('/cart', cartRouter)

@@ -3,6 +3,9 @@ import product, { Product } from "../models/productModel"
 import { findUserByEmail } from "./user"
 import category from "../models/categoryModel";
 import userModel from "../models/userModel";
+import { v4 } from "uuid";
+import sharp from "sharp";
+import fs from 'fs/promises'
 
 export const getAll = async (page: number) => {
     const products = await product.aggregate([
@@ -130,7 +133,8 @@ export const addProduct = async (email: string, data: Product) => {
         name: data.name,
         price: data.price,
         description: data.description, //Depois mudar esse objeto
-        stock: data.stock
+        stock: data.stock,
+        filename: data.filename
     })
 
     if (newProduct.stock < 1) {
@@ -153,6 +157,19 @@ export const addProduct = async (email: string, data: Product) => {
     )
 
     return newProduct
+}
+
+export const handleRawPhoto = async (tmpPath: string) => {
+    const newNameFile = v4() + '.jpg'
+
+    const image = await sharp(tmpPath)
+        .resize(500, 500, { fit: 'cover' })
+        .toBuffer()
+
+    await sharp(image)
+        .toFile('./public/images/' + newNameFile)
+
+    return newNameFile
 }
 
 export const updateProduct = async (email: string, id: string, data: Product) => {

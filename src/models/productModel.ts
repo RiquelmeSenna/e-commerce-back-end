@@ -8,7 +8,8 @@ export type Product = {
     brand: string,
     categoryId: Types.ObjectId,
     disponibility?: boolean,
-    stock: number
+    stock: number,
+    filename: string
 }
 
 const productSchema = new Schema<Product>({
@@ -18,7 +19,8 @@ const productSchema = new Schema<Product>({
     brand: { type: String, required: true },
     categoryId: [{ type: Types.ObjectId, ref: 'Category' }],
     disponibility: { type: Boolean, default: true },
-    stock: { type: Number, required: true }
+    stock: { type: Number, required: true },
+    filename: { type: String, required: true }
 })
 
 const modelProductName = 'Product'

@@ -43,7 +43,8 @@ export const deleteCategory = async (req: ExtendedRequest, res: Response) => {
         const updatedCategory = await categoryService.deleteCategory(req.userEmail, safeData.data?.idCategory as string)
         res.json({ Msg: 'Deletado com sucesso!' })
     } catch (error) {
-        res.status(400).json({ error: 'Não foi possive deletar esta categoria!' })
+        console.log(error)
+        res.status(400).json({ error: 'Não foi possivel deletar esta categoria!' })
     }
 }
 

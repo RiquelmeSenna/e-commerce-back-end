@@ -33,6 +33,9 @@ export const getAll = async (page: number) => {
         { $limit: 12, },
         {
             $addFields: { price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".99"] } }
+        },
+        {
+            $addFields: { filename: { $concat: ['http://localhost:3000/', '$filename'] } }
         }
     ])
     if (!products || products.length == 0) {
@@ -68,6 +71,9 @@ export const getOne = async (id: string) => {
             $addFields: {
                 price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".00"] }
             }
+        },
+        {
+            $addFields: { filename: { $concat: ['http://localhost:3000/', '$filename'] } }
         }
 
     ])
@@ -112,6 +118,9 @@ export const getProductsByName = async (name: string, page: number) => {
                 price: { $concat: [{ $toString: { $round: ['$price', 2] } }, ".99"] }
             }
         },
+        {
+            $addFields: { filename: { $concat: ['http://localhost:3000/', '$filename'] } }
+        }
     ])
 
     if (!products || products.length == 0) {

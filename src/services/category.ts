@@ -76,9 +76,12 @@ export const findProductByCategory = async (id: string, page: number) => {
                             products: {
                                 _id: 0,
                                 categoryId: 0,
-                                __v: 0
+                                __v: 0,
                             }
                         }
+                    },
+                    {
+                        $addFields: { 'products.filename': { $concat: ['http://localhost:3000/', '$products.filename',] } }
                     }
                 ]
             }
